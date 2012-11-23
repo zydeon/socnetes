@@ -3,3 +3,13 @@
 <jsp:include page="auth.jsp"></jsp:include>
 
 <h1>soc.net</h1>
+
+<button onclick="logout()"></button>
+
+<script type="text/javascript">
+
+	function logout(){
+		<% 
+	}
+
+</script>
