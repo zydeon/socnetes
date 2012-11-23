@@ -3,7 +3,6 @@
 	if(msg!=null)
 		out.println( "<span style='color:red'>*"+msg+"</span>" );
 %>
-<span></span>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,21 +17,26 @@
     <div class="main_div">
       <div>
 	<h1>soc.net</h1>
-      <div class="description_div">
-	<h4>Soc.net</h4>
+      </div>
+      <div class="desc_div">
+	<h>soc.net - ES</h>
 	<p>Trabalho realizado por:</p>
-	Carlos Ferreira<br>
-	Jo&atilde;o Valen&ccedila<br>
-	Pedro Matias	
+	<p>
+	  Carlos Ferreira<br>
+	  Jo&atilde;o Valen&ccedil;a<br>
+	  Pedro Matias
+	</p>
       </div>
       
       <div class="login_div">
-	<form action="login" method="post" >
+	<h>Login</h>
+	<form action="login" method="post">
 	  <input type="text" name="user" placeholder="Username"> <br>
 	  <input type="password" name="password" placeholder="Password"> <br>
-	  <input type="submit" name="enter" id="enter"value="Login">
+	  <br>
+	  <input type="submit" name="enter" id="enter" value="Login">
 	</form>
-	
+	<br>
 	<form method="link" action="register.jsp">
 	  <input type="submit" value="Register">
 	</form>
