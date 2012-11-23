@@ -53,7 +53,9 @@ if(msg!=null)
 			return false; 
 		}
 
-		if(document.getElementById('NIB').value=='' || document.getElementById('NIB').value.match(/[^0-9]/)){
+		if(document.getElementById('client').checked &&
+			(document.getElementById('NIB').value=='' || document.getElementById('NIB').value.match(/[^0-9]/))
+		  ){
 			alert("Invalid NIB");
 			document.getElementById('password').focus();
 			return false; 			

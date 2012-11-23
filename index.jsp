@@ -4,12 +4,4 @@
 
 <h1>soc.net</h1>
 
-<button onclick="logout()"></button>
-
-<script type="text/javascript">
-
-	function logout(){
-		<% 
-	}
-
-</script>
+<a href="logout"><button>Logout</button></a>
