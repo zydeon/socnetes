@@ -103,7 +103,7 @@ public class Backup {
 	// 	return null;
 	// }	
 
-	public static synchronized void writeUsers( ConcurrentHashMap<String, User> users ){
+	public static synchronized void saveUsers( ConcurrentHashMap<String, User> users ){
 		Backup b = new Backup();		
 		try{
 			b.abreEscrita(USERS_FILE);

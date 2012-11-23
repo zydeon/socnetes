@@ -34,10 +34,14 @@ public class Socnet{
 		return false;
 	}
 
-	public static boolean registerUser(String login, String pass){
+	public static boolean registerUser(String login, String pass, String NIB){
 		if( !users.containsKey(login) ){
-			users.put(login, new User(login, pass)  );
-			Backup.writeUsers(users);
+			if( NIB.equals("") )
+				users.put(login, new User(login, pass));
+			else
+				users.put(login, new Client(login, pass, Long.parseLong(NIB)) );
+
+			Backup.saveUsers(users);
 			return true;
 		}
 		return false;

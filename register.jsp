@@ -9,8 +9,13 @@
 
 <form action="register" method="post"  onsubmit="return checkfields();">
 	User <input type="text" name="user" id="user" placeholder="Username"> <br>
-	Password<input type="password" name="password" id="password" placeholder="Password"> <br>
-	Confirm password<input type="password" name="cpassword" id="cpassword" placeholder="Confirm Password"> <br>
+	Password <input type="password" name="password" id="password" placeholder="Password"> <br>
+	Confirm password <input type="password" name="cpassword" id="cpassword" placeholder="Confirm Password"> <br>
+
+	Client <input type="checkbox" name="client" id="client" onchange="toggleNIB()">
+	<div id="divNIB" style="visibility:hidden">
+	<input type="textfield" name="NIB" placeholder="NIB"> <br>
+	</div>
 
 	<input type="submit" name="register" value="Register">
 </form>
@@ -35,8 +40,19 @@
 			document.getElementById('password').focus();
 			return false; 
 		}
-		//obj.option[obj.selectedIndex]	
 	}
+
+	function toggleNIB(){
+		if( document.getElementById('client').checked ){
+			document.getElementById('divNIB').style.display='inline';
+			document.getElementById('divNIB').style.visibility='visible';	
+		}
+		else{
+			document.getElementById('divNIB').style.display='inline';
+			document.getElementById('divNIB').style.visibility='hidden';
+		}
+	}
+
 
 </script>
 
