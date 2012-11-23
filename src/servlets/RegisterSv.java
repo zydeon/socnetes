@@ -12,8 +12,6 @@ public class RegisterSv extends HttpServlet {
 		String user      = request.getParameter("user");
 		String pass      = request.getParameter("password");
 		String NIB = request.getParameter("NIB");
-
-		System.out.println(NIB);
 		
 		if(Socnet.registerUser(user, pass, NIB)){
 			request.getSession(true).setAttribute("user", user);

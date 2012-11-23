@@ -23,7 +23,7 @@ public class Socnet{
 	}
 
 	public static void destroy(){
-		System.out.println("AKSDBSAKBDKASBD");
+		
 	}
 
 	public static boolean authenticate(String login, String pass){

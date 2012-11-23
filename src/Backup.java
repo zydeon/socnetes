@@ -49,60 +49,6 @@ public class Backup {
 		return null;
 	}
 
-	// public static ConcurrentHashMap<Integer, PM> readPMs() {
-	// 	Backup b = new Backup();		
-	// 	ConcurrentHashMap<Integer, PM> pms;
-	// 	try{
-	// 		b.abreLeitura(PMS_FILE);
-	// 		pms = (ConcurrentHashMap<Integer, PM>) b.leObjecto();
-	// 		b.fechaLeitura();
-
-	// 		return pms;							
-	// 	}
-	// 	catch (EOFException e){System.out.println("ERRO "+PMS_FILE+" "+e.getMessage());}
-	// 	catch (FileNotFoundException e){System.out.println("ERRO "+PMS_FILE+" "+e.getMessage());}
-	// 	catch (java.io.IOException e){System.out.println("ERRO "+PMS_FILE+" "+e.getMessage());}
-	// 	catch (java.lang.ClassNotFoundException e){System.out.println("ERRO "+PMS_FILE+" "+e.getMessage());}		
-		
-	// 	return null;
-	// }	
-	
-	// public static ConcurrentHashMap<Integer, Post> readPosts() {
-	// 	Backup b = new Backup();		
-	// 	ConcurrentHashMap<Integer, Post> posts;
-	// 	try{
-	// 		b.abreLeitura(POSTS_FILE);
-	// 		posts = (ConcurrentHashMap<Integer, Post>) b.leObjecto();
-	// 		b.fechaLeitura();
-
-	// 		return posts;							
-	// 	}
-	// 	catch (EOFException e){System.out.println("ERRO "+POSTS_FILE+" "+e.getMessage());}
-	// 	catch (FileNotFoundException e){System.out.println("ERRO "+POSTS_FILE+" "+e.getMessage());}
-	// 	catch (java.io.IOException e){System.out.println("ERRO "+POSTS_FILE+" "+e.getMessage());}
-	// 	catch (java.lang.ClassNotFoundException e){System.out.println("ERRO "+POSTS_FILE+" "+e.getMessage());}		
-		
-	// 	return null;
-	// }
-
-	// public static ConcurrentHashMap<Integer, DelayedPost> readDelayedPosts() {
-	// 	Backup b = new Backup();		
-	// 	ConcurrentHashMap<Integer, DelayedPost> posts;
-	// 	try{
-	// 		b.abreLeitura(DELAYED_POSTS_FILE);
-	// 		posts = (ConcurrentHashMap<Integer, DelayedPost>) b.leObjecto();
-	// 		b.fechaLeitura();
-
-	// 		return posts;							
-	// 	}
-	// 	catch (EOFException e){System.out.println("ERRO "+DELAYED_POSTS_FILE+" "+e.getMessage());}
-	// 	catch (FileNotFoundException e){System.out.println("ERRO "+DELAYED_POSTS_FILE+" "+e.getMessage());}
-	// 	catch (java.io.IOException e){System.out.println("ERRO "+DELAYED_POSTS_FILE+" "+e.getMessage());}
-	// 	catch (java.lang.ClassNotFoundException e){System.out.println("ERRO "+DELAYED_POSTS_FILE+" "+e.getMessage());}		
-		
-	// 	return null;
-	// }	
-
 	public static synchronized void saveUsers( ConcurrentHashMap<String, User> users ){
 		Backup b = new Backup();		
 		try{
@@ -111,44 +57,6 @@ public class Backup {
 			b.fechaEscrita();
 		}
 		catch (FileNotFoundException e) {System.out.println("Ficheiro nao existente: "+e.getMessage());}
-		catch (IOException e){System.out.println("Erro de I/O: "+e.getMessage());}		
-
+		catch (IOException e){System.out.println("---Erro de I/O: "+e);}		
 	}
-
-	// public static void writePms( ConcurrentHashMap<Integer, PM> pms ){		
-	// 	Backup b = new Backup();		
-	// 	try{
-	// 		b.abreEscrita(PMS_FILE);
-	// 		b.escreveObjecto(pms);
-	// 		b.fechaEscrita();
-	// 	}
-	// 	catch (FileNotFoundException e) {System.out.println("Ficheiro nao existente: "+e.getMessage());}
-	// 	catch (IOException e){System.out.println("Erro de I/O: "+e.getMessage());}		
-
-	// }
-
-	// public static void writePosts( ConcurrentHashMap<Integer, Post> posts ){
-	// 	Backup b = new Backup();		
-	// 	try{
-	// 		b.abreEscrita(POSTS_FILE);
-	// 		b.escreveObjecto(posts);
-	// 		b.fechaEscrita();
-	// 	}
-	// 	catch (FileNotFoundException e) {System.out.println("Ficheiro nao existente: "+e.getMessage());}
-	// 	catch (IOException e){System.out.println("Erro de I/O: "+e.getMessage());}		
-
-	// }		
-
-	// public static void writeDelayedPosts( ConcurrentHashMap<Integer, DelayedPost> dps ){
-	// 	Backup b = new Backup();		
-	// 	try{
-	// 		b.abreEscrita(DELAYED_POSTS_FILE);
-	// 		b.escreveObjecto(dps);
-	// 		b.fechaEscrita();
-	// 	}
-	// 	catch (FileNotFoundException e) {System.out.println("Ficheiro nao existente: "+e.getMessage());}
-	// 	catch (IOException e){System.out.println("Erro de I/O: "+e.getMessage());}		
-
-	// }	
-
 }
