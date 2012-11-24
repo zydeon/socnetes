@@ -1,43 +1,97 @@
+/**
+ * Carlos Alberto Martins Ferreira = 2010146877
+ * João dos Santos Valença         = 2010130607
+ * Pedro Ascensão Ferreira Matias  = 2010120038
+ */
+
 package socnet;
 
 import java.io.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Backup is the class for all operations related to 
+ * files and its manipulation.
+ * It provides static methods that enables retrieval/saving from/to the filesystem
+ * all data related to the application.
+ * 
+ * @author Carlos Ferreira
+ * @author João Valença
+ * @author Pedro Matias
+ */
 public class Backup {	
 
 	private static final String FILES_PATH         = "./";
-	
 	private static final String USERS_FILE         = FILES_PATH+"users.obj";
 
 	private ObjectInputStream iS;
 	private ObjectOutputStream oS;
-	
-	private void abreLeitura(String nomeDoFicheiro) throws IOException {
-		iS = new ObjectInputStream(new FileInputStream(nomeDoFicheiro));
+		
+	/**
+	 * Opens the given file or reading operations
+	 * 
+	 * @param fileName 			the file path
+	 * @throws IOException		if an input or output exception ocurred
+	 */
+	private void openRead(String fileName) throws IOException {
+		iS = new ObjectInputStream(new FileInputStream(fileName));
 	}
-	private void abreEscrita(String nomeDoFicheiro) throws IOException{
-		oS = new ObjectOutputStream(new FileOutputStream(nomeDoFicheiro));
+	/**
+	 * Opens the given file or writing operations
+	 * 
+	 * @param fileName 			the file path
+	 * @throws IOException		if an input or output exception ocurred
+	 */	
+	private void openWrite(String fileName) throws IOException{
+		oS = new ObjectOutputStream(new FileOutputStream(fileName));
 	}
-	private Object leObjecto() throws IOException,ClassNotFoundException{
+	/**
+	 * Reads an object from the current opened ObjectInputStream iS
+	 * 
+	 * @return		 					the Object read (should be typecasted
+	 *                         			to the pretended object)
+	 * @throws IOException				if an input or output exception ocurred
+	 * @throws ClassNotFoundException	if the class was not found
+	 */		
+	private Object readObject() throws IOException,ClassNotFoundException{
 		return iS.readObject();	
 	}
-	private void escreveObjecto(Object o) throws IOException{
+	/**
+	 * Writes an object from the current opened ObjectInputStream oS
+	 * 
+	 * @param o		 					the object to be saved
+	 * @throws IOException				if an input or output exception ocurred
+	 */			
+	private void writeObject(Object o) throws IOException{
 		oS.writeObject(o);
 	}
-	private void fechaLeitura() throws IOException{
+	/**
+	 * Closes de current opened ObjectInputStream iS
+	 */
+	private void closeRead() throws IOException{
 		iS.close();
 	}
-	private void fechaEscrita() throws IOException{
+	/**
+	 * Closes de current opened ObjectInputStream oS
+	 */	
+	private void closeWrite() throws IOException{
 		oS.close();
 	}
-	
+
+	/**
+	 * Read the object file that contains the users registered
+	 * to memory
+	 *
+	 * @return 		The users saved in the filesystem
+	 */
+	@SuppressWarnings("unchecked")
 	public static ConcurrentHashMap<String, User> readUsers() {
 		Backup b = new Backup();		
 		ConcurrentHashMap<String, User> users;
 		try{
-			b.abreLeitura(USERS_FILE);
-			users = (ConcurrentHashMap<String, User>) b.leObjecto();
-			b.fechaLeitura();
+			b.openRead(USERS_FILE);
+			users = (ConcurrentHashMap<String, User>) b.readObject();
+			b.closeRead();
 
 			return users;							
 		}
@@ -49,12 +103,17 @@ public class Backup {
 		return null;
 	}
 
+	/**
+	 * Saved registered users in the application to an object file
+	 *
+	 * @param users 	the users to be saved
+	 */
 	public static synchronized void saveUsers( ConcurrentHashMap<String, User> users ){
 		Backup b = new Backup();		
 		try{
-			b.abreEscrita(USERS_FILE);
-			b.escreveObjecto(users);
-			b.fechaEscrita();
+			b.openWrite(USERS_FILE);
+			b.writeObject(users);
+			b.closeWrite();
 		}
 		catch (FileNotFoundException e) {System.out.println("Ficheiro nao existente: "+e.getMessage());}
 		catch (IOException e){System.out.println("---Erro de I/O: "+e);}		
