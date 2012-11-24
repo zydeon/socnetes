@@ -3,6 +3,7 @@ body{
     text-align:center;
     font-family:"Arial", Times, serif; 
     color:white;
+    vertical-align:middle;
 }
 
 h1{
@@ -27,7 +28,6 @@ p{
     display:inline-block;
     background-color:rgba(0,0,0,0.61);
     padding:20px;
-    /*text-align:left;*/
     color:white;
     border-radius:5px;
 }
