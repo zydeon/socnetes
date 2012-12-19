@@ -21,8 +21,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Backup {	
 
-	private static final String FILES_PATH         = "./";
+	private static final String FILES_PATH         = "./files/";
 	private static final String USERS_FILE         = FILES_PATH+"users.obj";
+	private static final String CHATS_FILE         = FILES_PATH+"users.obj";
 
 	private ObjectInputStream iS;
 	private ObjectOutputStream oS;

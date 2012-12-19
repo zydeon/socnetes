@@ -23,7 +23,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Socnet{
 
+	/* User 'login' is the key to the hash map */
 	private static ConcurrentHashMap<String, User> users;
+	/* Chatroom 'theme' is the key to the hash map */
+	private static ConcurrentHashMap<String, Chatroom> chatrooms;
 
 
 	/**
@@ -101,4 +104,45 @@ public class Socnet{
 		}
 		return false;
 	}
+
+
+	/**
+	 * Checks if a chatroom with the specified theme 
+	 * alreay exists.
+	 * 
+	 * @param theme			Chatroom theme specified by the user
+	 * @return 				<code>true</code> if a chatroom with the specified 'theme'
+	 * 						does not yet exist in the system;
+	 * 						<code>false</code> otherwise
+	 * 
+	 * @see Chatroom
+	 */
+	private static Boolean existsChatroom(String theme){
+		return (chatrooms.get(theme) != null);
+	}
+
+	/**
+	 * Creates a new Chatroom instance with
+	 * the specified theme and adds it to the
+	 * hash map.
+	 *
+	 * @param theme			Chatroom theme specified by the user
+	 * @return 				<code>true</code> if the chatroom was successfully 
+	 * 						added to the system
+	 * 						<code>false</code> if a chatroom with the specified 'theme'
+	 * 						already exists in the system;
+	 *
+	 * @see Chatroom
+	 */
+	public synchronized static Boolean addChatroom(String theme){
+		if( existsChatroom(theme) )
+			chatrooms.put(theme, new Chatroom(theme));
+		
+		return false;
+	}
+
+	public static String[] getChatroomNames(){
+		return chatrooms.keySet().toArray( new String[0] );		// type cast to array of strings
+	}
+
 }
