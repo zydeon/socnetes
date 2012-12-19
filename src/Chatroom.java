@@ -27,7 +27,6 @@ import java.util.Iterator;
  *
  * @see 	Post
  */
-
 public class Chatroom implements Serializable{
 
 	private String theme;
