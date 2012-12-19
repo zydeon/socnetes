@@ -56,12 +56,12 @@ public class Content implements Serializable{
 		this.ID = ID;
 	}
 
-	public int getNextID(){
+	public static int getNextID(){
 		return nextID;
 	}
 
-	public void setNextID(int ID){
-		this.nextID = ID;
+	public static void setNextID(int ID){
+		Content.nextID = ID;
 	}	
 }
 	

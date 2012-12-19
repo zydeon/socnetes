@@ -62,8 +62,8 @@ public class Chatroom implements Serializable{
 	}
 
 	public synchronized Post[] getPosts(){
-		ArrayList<Post> posts_ = new ArrayList<Post> (this.posts.values());
-		
+		Date now = new Date();
+		ArrayList<Post> posts_ = new ArrayList<Post> (this.posts.values());		
 
 		// First order by date
 		Collections.sort(posts_, new Comparator<Post>(){
@@ -76,7 +76,8 @@ public class Chatroom implements Serializable{
 		// Recursively get reply posts
 		for( Post p : posts_ ){
 			if(p.getParentID()==-1){		// Call the recursive function for the parents only
-				getChildren( orderedPosts, p );
+				if( p.getDate().compareTo(now)<0 )		// remove delayed posts
+					getChildren( orderedPosts, p );
 			}
 		}
 
@@ -112,5 +113,16 @@ public class Chatroom implements Serializable{
 			return true;
 		}
 		return false;
+	}
+
+	public int getMaxPostID(){
+		int maxID = 0, tmp;
+		Iterator<Post> it = posts.values().iterator();
+		while(it.hasNext()){
+			tmp = it.next().getID();
+			if( tmp > maxID )
+				maxID = tmp;
+		}
+		return maxID;
 	}
 }

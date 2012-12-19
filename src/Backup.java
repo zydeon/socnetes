@@ -122,4 +122,45 @@ public class Backup {
 		catch (FileNotFoundException e) {System.out.println("Ficheiro nao existente: "+e.getMessage());}
 		catch (IOException e){System.out.println("---Erro de I/O: "+e);}		
 	}
+
+	/**
+	 * Read the object file that contains the existing chatrooms
+	 * to memory
+	 *
+	 * @return 		The chatrooms saved in the filesystem
+	 */
+	@SuppressWarnings("unchecked")
+	public static ConcurrentHashMap<String, Chatroom> readChatrooms() {
+		Backup b = new Backup();		
+		ConcurrentHashMap<String, Chatroom> chatrooms;
+		try{
+			b.openRead(CHATS_FILE);
+			chatrooms = (ConcurrentHashMap<String, Chatroom>) b.readObject();
+			b.closeRead();
+
+			return chatrooms;							
+		}
+		catch (EOFException e){System.out.println("ERRO "+CHATS_FILE+" "+e.getMessage());}
+		catch (FileNotFoundException e){System.out.println("ERRO "+CHATS_FILE+" "+e.getMessage());}
+		catch (java.io.IOException e){System.out.println("ERRO "+CHATS_FILE+" "+e.getMessage());}
+		catch (java.lang.ClassNotFoundException e){System.out.println("ERRO "+CHATS_FILE+" "+e.getMessage());}		
+		
+		return null;
+	}
+
+	/**
+	 * Saved existing chatrooms in the application to an object file
+	 *
+	 * @param chatrooms 	the chatrooms to be saved
+	 */
+	public static synchronized void saveChatrooms( ConcurrentHashMap<String, Chatroom> chatrooms ){
+		Backup b = new Backup();		
+		try{
+			b.openWrite(CHATS_FILE);
+			b.writeObject(chatrooms);
+			b.closeWrite();
+		}
+		catch (FileNotFoundException e) {System.out.println("Ficheiro nao existente: "+e.getMessage());}
+		catch (IOException e){System.out.println("---Erro de I/O: "+e);}		
+	}		
 }

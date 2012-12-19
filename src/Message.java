@@ -14,9 +14,20 @@ public class Message extends Content{
 		this.date = new Date();
 	}
 
+	public Message(String src, String text, String imagePath, Date date){
+		super(src, text, imagePath);
+		this.date = date;
+	}	
+
 	public Message(String src, String text){
 		super(src, text);
+		this.date = new Date();
 	}
+
+	public Message(String src, String text, Date date){
+		super(src, text);
+		this.date = date;
+	}	
 
 	public Date getDate(){
 		return date;
