@@ -1,7 +1,7 @@
 package socnet;
 
 import java.util.ArrayList;
-
+import java.util.Date;
 public class Post extends Message{
 
 	protected int parentID;			// if parent==-1 it does not have parents
