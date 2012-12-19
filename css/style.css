@@ -55,6 +55,20 @@ p{
     width:200px;
     border-radius:5px;
 }
+
+.chatroom_div{
+    float:right;
+}
+
+.chatroom_frame{
+    width:800px;
+    height:500px;
+}
+
+.list_div{
+    width:100px;
+    float:left;
+}
 .main_div{
     display:inline-block;
     background-color:rgba(0,0,0,0.60);
