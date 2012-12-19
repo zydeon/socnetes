@@ -13,7 +13,7 @@ public class LoginSv extends HttpServlet {
 
 		if( Socnet.authenticate(user, pass) ){
 			request.getSession(true).setAttribute("user", user);
-			response.sendRedirect("index.jsp");			
+			response.sendRedirect("home");			
 		}
 		else
 			response.sendRedirect("login.jsp?msg=Wrong username or password");

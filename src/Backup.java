@@ -21,9 +21,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Backup {	
 
-	private static final String FILES_PATH         = "./files/";
+	private static final String TOMCAT_HOME = "/Library/Tomcat/";
+	private static final String WEBAPP_NAME = "socnetES";
+
+	private static final String FILES_PATH         = TOMCAT_HOME+"webapps/"+WEBAPP_NAME+"/files/";
 	private static final String USERS_FILE         = FILES_PATH+"users.obj";
-	private static final String CHATS_FILE         = FILES_PATH+"users.obj";
+	private static final String CHATS_FILE         = FILES_PATH+"chats.obj";
 
 	private ObjectInputStream iS;
 	private ObjectOutputStream oS;

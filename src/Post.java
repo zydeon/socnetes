@@ -6,7 +6,7 @@ public class Post extends Message{
 
 	protected int parentID;			// if parent==-1 it does not have parents
 	protected int replyLevel; 
-	private ArrayList<Integer> replyIDs;
+	protected ArrayList<Integer> replyIDs;
 
 	public Post(String src, String text, String imagePath){
 		super(src, text, imagePath);

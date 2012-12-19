@@ -11,6 +11,7 @@ public class Message extends Content{
 
 	public Message(String src, String text, String imagePath){
 		super(src, text, imagePath);
+		this.date = new Date();
 	}
 
 	public Message(String src, String text){

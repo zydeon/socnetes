@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Timer;
+import java.util.Date;
+import socnet.*;
 
 
 /**
@@ -27,6 +30,8 @@ public class Socnet{
 	private static ConcurrentHashMap<String, User> users;
 	/* Chatroom 'theme' is the key to the hash map */
 	private static ConcurrentHashMap<String, Chatroom> chatrooms;
+	/* DelayedPost 'id' is the key to the hash map */
+	private static ConcurrentHashMap<Integer, DelayedPost> delayedPosts;
 
 
 	/**
@@ -44,6 +49,7 @@ public class Socnet{
 	 */
 	public static void readBackup(){
 		users = new ConcurrentHashMap<String, User>();
+		chatrooms = new ConcurrentHashMap<String, Chatroom>();
 
 		ConcurrentHashMap<String, User> u = Backup.readUsers();
 		if( u != null )
@@ -143,6 +149,101 @@ public class Socnet{
 
 	public static String[] getChatroomNames(){
 		return chatrooms.keySet().toArray( new String[0] );		// type cast to array of strings
+	}
+
+	public static Post[] getChatroomPosts(String theme){
+		Chatroom cr = chatrooms.get(theme);
+		if(cr != null){
+			return cr.getPosts();
+		}
+
+		return null;
+	}
+
+	public static Boolean editPost(String chatroom, int postID, String text, String imagePath){
+		Chatroom cr = chatrooms.get(chatroom);
+		if(cr != null){
+			return cr.editPost(postID, text, imagePath);
+		}
+
+		return false;		
+	}
+
+	public static Boolean editPost(String chatroom, int postID, String text){
+		return editPost(chatroom, postID, text, "");
+	}	
+
+	public static Boolean addPost(String chatroom, String text, String source, String imagePath){
+		Chatroom cr = chatrooms.get(chatroom);
+		if(cr != null){
+			Post p = new Post(source, text, imagePath);
+			cr.addPost(p);
+			return true;
+		}
+
+		return false;			
+	}
+
+	public static Boolean addPost(String chatroom, String text, String source){
+		Chatroom cr = chatrooms.get(chatroom);
+		if(cr != null){
+			Post p = new Post(source, text);
+			cr.addPost(p);
+			return true;
+		}
+
+		return false;			
+	}	
+
+	public static Boolean addDelayedPost(String chatroom, String text, String source, String imagePath, Date futureDate){
+		Chatroom cr = chatrooms.get(chatroom);
+		if(cr != null){
+			DelayedPost dp = new DelayedPost(source, text, futureDate, imagePath);
+			new Timer().schedule( new DelayTask(dp.getID()), futureDate );			
+			return true;
+		}
+
+		return false;			
+	}
+
+	public static Boolean addDelayedPost(String chatroom, String text, String source, Date futureDate){
+		Chatroom cr = chatrooms.get(chatroom);
+		if(cr != null){
+			DelayedPost dp = new DelayedPost(source, text, futureDate);
+			new Timer().schedule( new DelayTask(dp.getID()), futureDate );			
+			return true;
+		}
+
+		return false;			
+	}	
+
+	public synchronized static void putInPosts(int dpID){
+		DelayedPost dp = delayedPosts.remove(dpID);
+		if(dp!=null){
+			dp.setDate( new Date() );
+			chatrooms.get( dp.getChatroom() ).addPost(dp);
+		}
+		else{
+			System.out.println("Error removing delayed post!");
+		}	
+	}
+
+	public static Boolean deletePost(String chatroom, int postID){
+		Chatroom cr = chatrooms.get(chatroom);
+		if(cr != null){
+			return cr.deletePost(postID);
+		}
+
+		return false;		
+	}
+
+	public static Boolean addReply(String chatroom, int parentID, String text, String source){
+		Chatroom cr = chatrooms.get(chatroom);
+		if(cr != null){
+			return cr.addReply(parentID, text, source);
+		}
+
+		return false;			
 	}
 
 }

@@ -2,9 +2,11 @@
 
 <% 
 String [] chatrooms = (String [])request.getAttribute("chatrooms");
-if(chatrooms==null){
-	response.sendRedirect("home");
-}
+// if(chatrooms==null){
+// 	response.sendRedirect("");
+
+// }
+// System.out.println("->"+chatrooms);
 %>
 
 <!DOCTYPE html>
@@ -34,8 +36,10 @@ if(chatrooms==null){
 		<hr>
 		<div class="list_div">
 			<select>
-				<%for(int i=0;i<chatrooms.length;i++){%>
-					<option value="<%=chatrooms[i]%>"><%=chatrooms[i]%></option>
+				<%if(chatrooms!=null){%>
+					<%for(String cr : chatrooms){%>
+						<option value="<%=cr%>"><%=cr%></option>
+					<%}%>
 				<%}%>
 			</select>
 		</div>

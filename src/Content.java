@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class Content implements Serializable{
 
+	private static int nextID = 1;
 	protected int ID;
 	protected String source;
 	protected String text;
@@ -16,6 +17,7 @@ public class Content implements Serializable{
 		this.source = source;
 		this.text = text;
 		this.imagePath = imagePath;
+		this.ID = nextID++;
 	}
 
 	public Content(String source, String text){
@@ -53,5 +55,13 @@ public class Content implements Serializable{
 	public void setID(int ID){
 		this.ID = ID;
 	}
+
+	public int getNextID(){
+		return nextID;
+	}
+
+	public void setNextID(int ID){
+		this.nextID = ID;
+	}	
 }
 	

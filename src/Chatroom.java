@@ -29,6 +29,7 @@ import java.util.Collections;
 public class Chatroom implements Serializable{
 
 	private String theme;
+	/* Post 'ID' is the key to the hash map */
 	private ConcurrentHashMap<Integer, Post> posts;
 
 	/**
@@ -88,5 +89,28 @@ public class Chatroom implements Serializable{
 			getChildren( orderedPosts, this.posts.get( replyID ));
 	}   	
 
+	public synchronized Boolean editPost(int postID, String text, String imagePath){
+		Post p = posts.get(postID);
+		if(p!=null){
+			p.setText(text);
+			p.setImagePath(imagePath);
+			return true;
+		}
+		return false;
+	}
 
+	public Boolean deletePost(int postID){
+		return (posts.remove(postID) != null);
+	}	
+
+	public Boolean addReply(int parentID, String text, String source){
+		Post p = posts.get(parentID);
+		if(p!=null){
+			int rLevel = p.getReplyLevel()+1;
+			Post reply = new Post(source, text, parentID, rLevel);
+			addPost(reply);
+			return true;
+		}
+		return false;
+	}
 }

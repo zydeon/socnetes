@@ -15,7 +15,7 @@ public class RegisterSv extends HttpServlet {
 		
 		if(Socnet.registerUser(user, pass, NIB)){
 			request.getSession(true).setAttribute("user", user);
-			response.sendRedirect("index.jsp");						
+			response.sendRedirect("home");						
 		}
 		else{
 			response.sendRedirect("register.jsp?msg=User already exists");
