@@ -61,7 +61,7 @@ public class Socnet{
 	}
 
 	/**
-	 * Gets the last ID attributed to a post,
+	 * Gets the last ID attributed to a post in all chatrooms,
 	 * which is equivalent to the greater ID.
 	 *
 	 * @return				the maximum post ID in the system
@@ -200,7 +200,8 @@ public class Socnet{
 	}
 
 	/**
-	 * Edits a post with the possibility of altering
+	 * Edits a post of a specified chatroom
+	 * with the possibility of altering
 	 * its content and image.
 	 *
 	 * @param chatroom 		The chatroom identifier (its theme)
@@ -322,7 +323,15 @@ public class Socnet{
 	// 	}	
 	// }
 
-
+	/**
+	 * Deletes a post from a chatroom and the
+	 * corresponding replies
+	 *
+	 * @param chatroom 		The chatroom identifier (its theme)
+	 * @param postID 		The id of the post to be removed
+	 * @return 				<code>true</code> if the post was successfully deleted
+	 * 						<code>false</code> otherwise (specified post or chatroom does not exist)
+	 */
 	public static Boolean deletePost(String chatroom, int postID){
 		Chatroom cr = chatrooms.get(chatroom);
 		if(cr != null){
@@ -332,6 +341,19 @@ public class Socnet{
 		return false;		
 	}
 
+	/**
+	 * Adds a reply to a specified post.
+	 * The reply cannot be delayed or be attached
+	 * to an image.
+	 *
+	 * @param chatroom 		The chatroom identifier (its theme)
+	 * @param parentID		The identifier of the parent post
+	 * @param text 			The content of the reply
+	 * @param source 		The User identifier (login) that wrote the reply
+	 *
+	 * @return 				<code>true</code> if the reply was successfully added
+	 * 						<code>false</code> otherwise (specified parent post ID does not exist)
+	 */
 	public static Boolean addReply(String chatroom, int parentID, String text, String source){
 		Chatroom cr = chatrooms.get(chatroom);
 		if(cr != null){
