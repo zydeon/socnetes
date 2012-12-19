@@ -6,7 +6,7 @@ import socnet.Socnet;
 
 public class HomeSv extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException,ServletException{
-	    request.setAttribute("chatrooms",Socnet.getChatroomNames());
+	    request.setAttribute("chatrooms",Socnet.getChatroomThemes());
 		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 		dispatcher.forward(request, response);
 	}

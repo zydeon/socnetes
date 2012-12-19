@@ -13,6 +13,7 @@ import java.security.SecureRandom;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Timer;
 import java.util.Date;
+import java.util.Iterator;
 import socnet.*;
 
 
@@ -69,7 +70,7 @@ public class Socnet{
 	public static int getMaxPostID(){
 		int maxID = 0, tmp;
 		if(chatrooms!=null){
-			Iterator<Chatrooms> it = chatrooms.values().iterator();
+			Iterator<Chatroom> it = chatrooms.values().iterator();
 			while( it.hasNext() ){
 				tmp = it.next().getMaxPostID();
 				if( tmp > maxID )
