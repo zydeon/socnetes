@@ -15,6 +15,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <title>soc.net</title>
+    <script type="text/javascript">
+      function displayChatroom(){
+      var chatroom_list = document.getElementById('chatroom_list'); 
+      var cr = chatroom_list.options[chatroom_list.selectedIndex].value;
+      document.getElementById('chatroom_frame').src = 'chat?id='+cr;
+      }
+    </script>
   </head>
 
   <body>
@@ -36,15 +43,15 @@
       <hr>
       <div class="list_div">
 	<%if(chatrooms!=null){%>
-	<select size="40" style="width:100px;">
+	<select id="chatroom_list"size="40" style="width:100px;" onclick="displayChatroom()">
 	  <%for(String cr : chatrooms){%>
 	  <option value="<%=cr%>"><%=cr%></option>
-	    <%}%>
+	  <%}%>
 	</select>
 	<%}%>
       </div>
       <div class="chatroom_div">
-	<iframe class="chatroom_frame" src="chat.jsp"></iframe>
+	<iframe class="chatroom_frame" id="chatroom_frame" src="chat.jsp"></iframe>
       </div>
       <br>
     </div>

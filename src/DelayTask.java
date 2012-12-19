@@ -9,7 +9,7 @@ public class DelayTask extends TimerTask{
 		this.dpID = dpID;
 	}
 	public void run(){
-		Socnet.putInPosts(dpID);
+		//Socnet.putInPosts(dpID);
 	}
 }
 

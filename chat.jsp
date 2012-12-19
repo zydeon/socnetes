@@ -1,11 +1,8 @@
 <jsp:include page="auth.jsp"></jsp:include>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="socnet.Post"%>
-Post[] posts = (Post[])request.getAttribute("posts");
-   Boolean owner;
-   %>
-
-
+<%Post[] posts = (Post[])request.getAttribute("posts"); %>
+<%Boolean owner = true;>
 
 <html>
   <head>	
@@ -84,9 +81,11 @@ function editPost(divID){
     <h1>Timeline</h1>
     
     <script type="text/javascript"> newPost(); </script>
-    <% for(Post p : posts){ %>
+    <% for(Post p : posts){   %>
     <% owner=p.getSource().equals((String)session.getAttribute("user"));%>
-    <script type="text/javascript"> outputPost( "<%=p.getSource()%>", "<%=p.getText()%>", "<%=p.getDate()%>", "<%=p.getReplyLevel()%>", "<%=p.getID()%>", "<%=p.getImagePath()%>" );</script>
+    <script type="text/javascript"> 
+      outputPost( "<%=p.getSource()%>", "<%=p.getText()%>", "<%=p.getDate()%>", "<%=p.getReplyLevel()%>", "<%=p.getID()%>", "<%=p.getImagePath()%>" );
+    </script>
     <% } %>
   </div>
   

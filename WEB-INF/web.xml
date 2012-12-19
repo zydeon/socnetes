@@ -52,15 +52,15 @@
         <url-pattern>/home</url-pattern>
     </servlet-mapping>       
 
-    <!-- POST -->
+    <!-- CHAT -->
     <servlet>
-        <servlet-name>Post</servlet-name>
-        <servlet-class>PostSv</servlet-class>
+        <servlet-name>Chat</servlet-name>
+        <servlet-class>ChatSv</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>Post</servlet-name>
-        <url-pattern>/post</url-pattern>
+        <servlet-name>Chat</servlet-name>
+        <url-pattern>/chat</url-pattern>
     </servlet-mapping>       
 
     <!-- INITIALIZER -->
