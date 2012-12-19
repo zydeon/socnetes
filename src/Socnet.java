@@ -141,9 +141,9 @@ public class Socnet{
 	 * @see Chatroom
 	 */
 	public synchronized static Boolean addChatroom(String theme){
-		if( existsChatroom(theme) )
+		if( !existsChatroom(theme) )
 			chatrooms.put(theme, new Chatroom(theme));
-		
+
 		return false;
 	}
 

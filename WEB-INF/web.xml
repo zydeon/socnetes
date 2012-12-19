@@ -52,6 +52,17 @@
         <url-pattern>/home</url-pattern>
     </servlet-mapping>       
 
+    <!-- POST -->
+    <servlet>
+        <servlet-name>Post</servlet-name>
+        <servlet-class>PostSv</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Post</servlet-name>
+        <url-pattern>/post</url-pattern>
+    </servlet-mapping>       
+
     <!-- INITIALIZER -->
     <servlet>
         <servlet-name>SocnetInitializerSv</servlet-name>
