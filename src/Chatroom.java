@@ -27,7 +27,6 @@ import java.util.Iterator;
  *
  * @see 	Post
  */
-
 public class Chatroom implements Serializable{
 
 	private String theme;
@@ -104,7 +103,7 @@ public class Chatroom implements Serializable{
 	 * the specified ArrayList of posts
 	 *
 	 * @param orderedPosts 		The target ArrayList of the sorted posts
-	 * @param post 				The post from which start recursion
+	 * @param post 				The post from which starts recursion
 	 *
 	 * @see getPosts()
 	 */
@@ -145,8 +144,27 @@ public class Chatroom implements Serializable{
 	 * 						<code>false</code> otherwise (specified post does not exist)
 	 */
 	public Boolean deletePost(int postID){
-		return (posts.remove(postID) != null);
+		if(posts.get(postID)!=null){
+			deletePost_(postID);
+			return true;
+		}
+		return false;
 	}	
+
+	/**
+	 * Recursive function used by deletePost()
+	 * deletes all level replies of a given post.
+	 *
+	 * @param postID			The initial post ID from which starts recursion
+	 *
+	 * @see getPosts()
+	 */
+	private void deletePost_(int postID){
+		Post p = posts.get(postID);
+		for(int r : p.getReplyIDs())
+			deletePost_(r);
+		posts.remove(postID);
+	}
 
 	/**
 	 * Adds a reply to a specified post in this chatroom.
@@ -165,6 +183,7 @@ public class Chatroom implements Serializable{
 		if(p!=null){
 			int rLevel = p.getReplyLevel()+1;
 			Post reply = new Post(source, text, parentID, rLevel);
+			p.addReplyID(reply.getID());
 			addPost(reply);
 			return true;
 		}
