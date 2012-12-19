@@ -41,6 +41,17 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>       
 
+    <!-- HOME -->
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>HomeSv</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>       
+
     <!-- INITIALIZER -->
     <servlet>
         <servlet-name>SocnetInitializerSv</servlet-name>
