@@ -30,9 +30,6 @@ public class Socnet{
 	private static ConcurrentHashMap<String, User> users;
 	/* Chatroom 'theme' is the key to the hash map */
 	private static ConcurrentHashMap<String, Chatroom> chatrooms;
-	/* DelayedPost 'id' is the key to the hash map */
-	private static ConcurrentHashMap<Integer, DelayedPost> delayedPosts;
-
 
 	/**
 	 * Initializes the application, backing up 
@@ -41,7 +38,8 @@ public class Socnet{
 	 * (information on WEB-INF/web.xml descriptor)
 	 */
 	public static void init(){
-		readBackup();		
+		readBackup();	
+		Content.setNextID( getMaxPostID() + 1 );
 	}	
 
 	/**
@@ -51,9 +49,38 @@ public class Socnet{
 		users = new ConcurrentHashMap<String, User>();
 		chatrooms = new ConcurrentHashMap<String, Chatroom>();
 
+		// read users
 		ConcurrentHashMap<String, User> u = Backup.readUsers();
 		if( u != null )
 			users.putAll(u);
+
+		// read chatrooms
+		ConcurrentHashMap<String, Chatroom> c = Backup.readChatrooms();
+		if( c != null )
+			chatrooms.putAll(c);
+	}
+
+	/**
+	 * Gets the last ID attributed to a post in all chatrooms,
+	 * which is equivalent to the greater ID.
+	 *
+	 * @return				the maximum post ID in the system
+	 */
+	public static int getMaxPostID(){
+		int maxID = 0, tmp;
+		if(chatrooms!=null){
+			Iterator<Chatrooms> it = chatrooms.values().iterator();
+			while( it.hasNext() ){
+				tmp = it.next().getMaxPostID();
+				if( tmp > maxID )
+					maxID = tmp;
+			}
+		}
+		else{
+			System.out.println("Chatrooms are null!");			
+		}
+
+		return maxID;
 	}
 
 	/**
@@ -143,14 +170,26 @@ public class Socnet{
 	public synchronized static Boolean addChatroom(String theme){
 		if( !existsChatroom(theme) )
 			chatrooms.put(theme, new Chatroom(theme));
-
 		return false;
 	}
 
-	public static String[] getChatroomNames(){
+	/**
+	 * Retrieves the current chatroom themes in the system.
+	 *
+	 * @return				An array with the themes
+	 */
+	public static String[] getChatroomThemes(){
 		return chatrooms.keySet().toArray( new String[0] );		// type cast to array of strings
 	}
 
+	/**
+	 * Retrieves the posts written in a specified chatroom
+	 * ordered by date and by its parent recursively.
+	 * The first ones are the most up to date.
+	 *
+	 * @param theme 		Chatroom theme specified
+	 * @return				An array with the ordered posts
+	 */
 	public static Post[] getChatroomPosts(String theme){
 		Chatroom cr = chatrooms.get(theme);
 		if(cr != null){
@@ -160,6 +199,20 @@ public class Socnet{
 		return null;
 	}
 
+	/**
+	 * Edits a post of a specified chatroom
+	 * with the possibility of altering
+	 * its content and image.
+	 *
+	 * @param chatroom 		The chatroom identifier (its theme)
+	 * @param postID 		The id of the post to be alterer
+	 * @param text 			The new content of the post
+	 * @param imagePath 	The new path to the image
+	 * @return 				<code>true</code> if the edit was successful
+	 * 						<code>false</code> otherwise (chatroom or post does not exist)
+	 *
+	 * @see Post
+	 */
 	public static Boolean editPost(String chatroom, int postID, String text, String imagePath){
 		Chatroom cr = chatrooms.get(chatroom);
 		if(cr != null){
@@ -169,14 +222,56 @@ public class Socnet{
 		return false;		
 	}
 
-	public static Boolean editPost(String chatroom, int postID, String text){
-		return editPost(chatroom, postID, text, "");
-	}	
+	// /**
+	//  * Edits a post with the possibility of altering
+	//  * its content.
+	//  *
+	//  * @param chatroom 		The chatroom identifier (its theme)
+	//  * @param postID 		The id of the post to be alterer
+	//  * @param text 			The new content of the post
+	//  * @param imagePath 	The new path to the image
+	//  * @return 				<code>true</code> if the edit was successful
+	//  * 						<code>false</code> otherwise (chatroom or post does not exist)
+	//  */
+	// public static Boolean editPost(String chatroom, int postID, String text){
+	// 	return editPost(chatroom, postID, text, "");
+	// }	
 
-	public static Boolean addPost(String chatroom, String text, String source, String imagePath){
+	/**
+	 * Adds a post to the specified chatroom.
+	 * This post can either be a delayed post (if <code>date!=null</code>)
+	 * or a post with an image (if <code>imagePath!=null</code>)
+	 *
+	 * @param chatroom 			The chatroom identifier (its theme)
+	 * @param text				The content of the post
+	 * @param source 			The User identifier (login) that wrote the post
+	 * @param imagePath			The path to the image (can be null)
+	 * @param date 				The future date to a delayed post appear (can be null)
+	 * @return 					
+	 *
+	 * @return 				<code>true</code> if the post was successfully added to the chatroom
+	 * 						<code>false</code> otherwise (chatroom does not exist)
+	 */
+	public static Boolean addPost(String chatroom, String text, String source, String imagePath, Date date){
 		Chatroom cr = chatrooms.get(chatroom);
 		if(cr != null){
-			Post p = new Post(source, text, imagePath);
+			Post p;
+			if( imagePath == null ){
+				if( date == null ){
+					p = new Post(source, text);
+				}
+				else{
+					p = new Post(source, text, date);
+				}
+			}
+			else{
+				if( date == null ){
+					p = new Post(source, text, imagePath);
+				}
+				else{
+					p = new Post(source, text, imagePath, date);
+				}
+			}
 			cr.addPost(p);
 			return true;
 		}
@@ -184,50 +279,59 @@ public class Socnet{
 		return false;			
 	}
 
-	public static Boolean addPost(String chatroom, String text, String source){
-		Chatroom cr = chatrooms.get(chatroom);
-		if(cr != null){
-			Post p = new Post(source, text);
-			cr.addPost(p);
-			return true;
-		}
+	// public static Boolean addPost(String chatroom, String text, String source){
+	// 	Chatroom cr = chatrooms.get(chatroom);
+	// 	if(cr != null){
+	// 		Post p = new Post(source, text);
+	// 		cr.addPost(p);
+	// 		return true;
+	// 	}
 
-		return false;			
-	}	
+	// 	return false;			
+	// }	
 
-	public static Boolean addDelayedPost(String chatroom, String text, String source, String imagePath, Date futureDate){
-		Chatroom cr = chatrooms.get(chatroom);
-		if(cr != null){
-			DelayedPost dp = new DelayedPost(source, text, futureDate, imagePath);
-			new Timer().schedule( new DelayTask(dp.getID()), futureDate );			
-			return true;
-		}
+	// public static Boolean addDelayedPost(String chatroom, String text, String source, String imagePath, Date futureDate){
+	// 	Chatroom cr = chatrooms.get(chatroom);
+	// 	if(cr != null){
+	// 		DelayedPost dp = new DelayedPost(source, text, futureDate, imagePath);
+	// 		new Timer().schedule( new DelayTask(dp.getID()), futureDate );			
+	// 		return true;
+	// 	}
 
-		return false;			
-	}
+	// 	return false;			
+	// }
 
-	public static Boolean addDelayedPost(String chatroom, String text, String source, Date futureDate){
-		Chatroom cr = chatrooms.get(chatroom);
-		if(cr != null){
-			DelayedPost dp = new DelayedPost(source, text, futureDate);
-			new Timer().schedule( new DelayTask(dp.getID()), futureDate );			
-			return true;
-		}
+	// public static Boolean addDelayedPost(String chatroom, String text, String source, Date futureDate){
+	// 	Chatroom cr = chatrooms.get(chatroom);
+	// 	if(cr != null){
+	// 		DelayedPost dp = new DelayedPost(source, text, futureDate);
+	// 		new Timer().schedule( new DelayTask(dp.getID()), futureDate );			
+	// 		return true;
+	// 	}
 
-		return false;			
-	}	
+	// 	return false;			
+	// }	
 
-	public synchronized static void putInPosts(int dpID){
-		DelayedPost dp = delayedPosts.remove(dpID);
-		if(dp!=null){
-			dp.setDate( new Date() );
-			chatrooms.get( dp.getChatroom() ).addPost(dp);
-		}
-		else{
-			System.out.println("Error removing delayed post!");
-		}	
-	}
+	// public synchronized static void putInPosts(int dpID){
+	// 	DelayedPost dp = delayedPosts.remove(dpID);
+	// 	if(dp!=null){
+	// 		dp.setDate( new Date() );
+	// 		chatrooms.get( dp.getChatroom() ).addPost(dp);
+	// 	}
+	// 	else{
+	// 		System.out.println("Error removing delayed post!");
+	// 	}	
+	// }
 
+	/**
+	 * Deletes a post from a chatroom and the
+	 * corresponding replies
+	 *
+	 * @param chatroom 		The chatroom identifier (its theme)
+	 * @param postID 		The id of the post to be removed
+	 * @return 				<code>true</code> if the post was successfully deleted
+	 * 						<code>false</code> otherwise (specified post or chatroom does not exist)
+	 */
 	public static Boolean deletePost(String chatroom, int postID){
 		Chatroom cr = chatrooms.get(chatroom);
 		if(cr != null){
@@ -237,6 +341,19 @@ public class Socnet{
 		return false;		
 	}
 
+	/**
+	 * Adds a reply to a specified post.
+	 * The reply cannot be delayed or be attached
+	 * to an image.
+	 *
+	 * @param chatroom 		The chatroom identifier (its theme)
+	 * @param parentID		The identifier of the parent post
+	 * @param text 			The content of the reply
+	 * @param source 		The User identifier (login) that wrote the reply
+	 *
+	 * @return 				<code>true</code> if the reply was successfully added
+	 * 						<code>false</code> otherwise (specified parent post ID does not exist)
+	 */
 	public static Boolean addReply(String chatroom, int parentID, String text, String source){
 		Chatroom cr = chatrooms.get(chatroom);
 		if(cr != null){

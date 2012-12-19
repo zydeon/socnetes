@@ -8,20 +8,33 @@ public class Post extends Message{
 	protected int replyLevel; 
 	protected ArrayList<Integer> replyIDs;
 
-	public Post(String src, String text, String imagePath){
-		super(src, text, imagePath);
+	public Post(){
 		this.parentID = -1;			// doest not have parents		
 		this.replyLevel = 0;
-		this.replyIDs = new ArrayList<Integer>();
-	}	
+		this.replyIDs = new ArrayList<Integer>();		
+	}
+
+	public Post(String src, String text, String imagePath){
+		super(src, text, imagePath);
+		this();
+	}
+
+	public Post(String src, String text, String imagePath, Date date){
+		super(src, text, imagePath, date);
+		this();
+	}		
 
 	public Post(String src, String text){
 		super(src, text);
-		this.parentID = -1;			// doest not have parents		
-		this.replyLevel = 0;
-		this.replyIDs = new ArrayList<Integer>();
+		this();
 	}	
 
+	public Post(String src, String text, Date date){
+		super(src, text, date);
+		this();
+	}		
+
+	// for replies
 	public Post(String src, String text, int parentID, int rLvl){
 		super(src, text);
 		this.parentID = parentID;			// doest not have parents		
