@@ -169,13 +169,9 @@ public class Socnet{
 	 * @see Chatroom
 	 */
 	public synchronized static Boolean addChatroom(String theme){
-	    if( !existsChatroom(theme) ){
+		if( !existsChatroom(theme) )
 			chatrooms.put(theme, new Chatroom(theme));
-			Backup.saveChatrooms(chatrooms);
-			return true;
-	    }
 		return false;
-		
 	}
 
 	/**
@@ -196,10 +192,10 @@ public class Socnet{
 	 * @return				An array with the ordered posts
 	 */
 	public static Post[] getChatroomPosts(String theme){
-	    Chatroom cr = chatrooms.get(theme);
-	    System.out.println("socnetgetposts");
+		Chatroom cr = chatrooms.get(theme);
 		if(cr != null){
-			return cr.getPosts();
+			Post[] ps = cr.getPosts();
+			return ps;
 		}
 
 		return null;
@@ -260,7 +256,6 @@ public class Socnet{
 	 */
 	public static Boolean addPost(String chatroom, String text, String source, String imagePath, Date date){
 		Chatroom cr = chatrooms.get(chatroom);
-			
 		if(cr != null){
 			Post p;
 			if( imagePath == null ){

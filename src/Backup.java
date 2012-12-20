@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Backup {	
 
-	private static final String TOMCAT_HOME = "/usr/share/tomcat7/";
+	private static final String TOMCAT_HOME = "/Library/Tomcat/";
 	private static final String WEBAPP_NAME = "socnetES";
 
 	private static final String FILES_PATH         = TOMCAT_HOME+"webapps/"+WEBAPP_NAME+"/files/";
