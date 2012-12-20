@@ -3,7 +3,7 @@
 <%@ page import="java.lang.Boolean"%>
 <%@ page import="socnet.Post"%>
 <%
-   /*Post[] posts = (Post[])session.getAttribute("posts");*/ 
+   Post[] posts = (Post[])request.getAttribute("posts");
    Boolean owner = true;
 %>
 
@@ -81,14 +81,14 @@ function editPost(divID){
 </head>
 <body>
   <div class="sub_div">
-    <h2><%=(String)session.getAttribute("id")%></h2>
+    <h2><%=(String)request.getParameter("id")%></h2>
     <script type="text/javascript"> newPost(); </script>
-    <% /*for(int i=0;i<posts.length;i++){   %>
-    <% owner=posts[i].getSource().equals((String)session.getAttribute("user"));%>
+    <%for(Post p : posts){   %>
+    <%owner=p.getSource().equals((String)session.getAttribute("user"));%>
     <script type="text/javascript"> 
-      outputPost( "<%=posts[i].getSource()%>", "<%=posts[i].getText()%>", "<%=posts[i].getDate()%>", "<%=posts[i].getReplyLevel()%>", "<%=posts[i].getID()%>", "<%=posts[i].getImagePath()%>" );
+      outputPost( "<%=p.getSource()%>", "<%=p.getText()%>", "<%=p.getDate()%>", "<%=p.getReplyLevel()%>","<%=owner%>", "<%=p.getID()%>", "<%=p.getImagePath()%>" );
     </script>
-    <% } */%>
+    <%}%>
   </div>
   
 </body>
