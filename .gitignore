@@ -5,4 +5,4 @@ makefile
 Makefile
 *.class
 *.DS_Store
-Backup.java
+*Backup.java
