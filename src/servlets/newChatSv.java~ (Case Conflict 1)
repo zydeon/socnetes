@@ -1,0 +1,16 @@
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.sql.*;
+import socnet.Socnet;
+import socnet.Socnet.*;
+import socnet.Post;
+import java.util.Date;
+
+public class NewChatSv extends HttpServlet{
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException,ServletException{
+	request.setAttribute("posts",Socnet.getChatroomPosts((String)request.getParameter("id")));
+	Socnet.addChatroom((String)request.getParameter("chatroom_name"));
+	response.sendRedirect("index.jsp");
+    }
+}

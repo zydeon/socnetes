@@ -2,11 +2,12 @@
 
 <% 
    String [] chatrooms = (String [])request.getAttribute("chatrooms");
-   //if(chatrooms==null){
-   //response.sendRedirect("");
 
-   //}
+   if(chatrooms==null){
+   response.sendRedirect("home");
+   }
    // System.out.println("->"+chatrooms);
+
    %>
 
 <!DOCTYPE html>
@@ -21,13 +22,15 @@
       var cr = chatroom_list.options[chatroom_list.selectedIndex].value;
       document.getElementById('chatroom_frame').src = 'chat?id='+cr;
       }
+
+      function newChatroom(){
+      
+      }
     </script>
   </head>
 
   <body>
     <input type="hidden" id="username" value='<%=session.getAttribute("user")%>'>
-
-
     <div class="main_div">
       <div class="title_div">
 	<h1>soc.net</h1>
@@ -35,6 +38,14 @@
       </div>
       <hr>
       <div style="width:100%;">
+	<%if (session.getAttribute("user").equals("admin")){%>
+	<div style="float:left;">
+	  <form method="post" action="newChat">
+	    <input type="submit" value="Create Chatroom">
+	    <input type="text" name="chatroom_name" id="chatroom_name">
+	  </form>
+	</div>
+	<%}%>
 	<div style="float:right;">
 	  <form action="logout" method="get"><button>Logout</button></form>
 	</div>
@@ -43,7 +54,7 @@
       <hr>
       <div class="list_div">
 	<%if(chatrooms!=null){%>
-	<select id="chatroom_list"size="40" style="width:100px;" onclick="displayChatroom()">
+	<select id="chatroom_list"size="32" style="width:100px;" onclick="displayChatroom()">
 	  <%for(String cr : chatrooms){%>
 	  <option value="<%=cr%>"><%=cr%></option>
 	  <%}%>

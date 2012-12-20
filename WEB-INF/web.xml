@@ -62,6 +62,18 @@
         <servlet-name>Chat</servlet-name>
         <url-pattern>/chat</url-pattern>
     </servlet-mapping>       
+    
+    <!-- NEW CHATROOM -->
+
+    <servlet>
+        <servlet-name>NewChat</servlet-name>
+        <servlet-class>NewChatSv</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>NewChat</servlet-name>
+        <url-pattern>/newChat</url-pattern>
+    </servlet-mapping>       
 
     <!-- INITIALIZER -->
     <servlet>

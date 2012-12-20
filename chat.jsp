@@ -2,7 +2,7 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="socnet.Post"%>
 <%Post[] posts = (Post[])request.getAttribute("posts"); %>
-<%Boolean owner = true;>
+<%Boolean owner;>
 
 <html>
   <head>	
