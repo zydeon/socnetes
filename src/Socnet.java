@@ -192,7 +192,8 @@ public class Socnet{
 	 * @return				An array with the ordered posts
 	 */
 	public static Post[] getChatroomPosts(String theme){
-		Chatroom cr = chatrooms.get(theme);
+	    Chatroom cr = chatrooms.get(theme);
+	    System.out.println("socnetgetposts");
 		if(cr != null){
 			return cr.getPosts();
 		}
@@ -255,6 +256,7 @@ public class Socnet{
 	 */
 	public static Boolean addPost(String chatroom, String text, String source, String imagePath, Date date){
 		Chatroom cr = chatrooms.get(chatroom);
+			
 		if(cr != null){
 			Post p;
 			if( imagePath == null ){

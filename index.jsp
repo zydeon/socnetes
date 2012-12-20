@@ -34,7 +34,11 @@
     <div class="main_div">
       <div class="title_div">
 	<h1>soc.net</h1>
+	<%if (session.getAttribute("user").equals("admin")){%>
+	<h2>Welcome, Mr. Administrator!</h2>
+	<%}else{%>
 	<h2>Welcome, <%=session.getAttribute("user")%> !</h2>
+	<%}%>
       </div>
       <hr>
       <div style="width:100%;">
@@ -54,7 +58,7 @@
       <hr>
       <div class="list_div">
 	<%if(chatrooms!=null){%>
-	<select id="chatroom_list"size="32" style="width:100px;" onclick="displayChatroom()">
+	<select id="chatroom_list" size="32" style="width:100px;" onclick="displayChatroom()">
 	  <%for(String cr : chatrooms){%>
 	  <option value="<%=cr%>"><%=cr%></option>
 	  <%}%>
