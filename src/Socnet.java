@@ -171,6 +171,7 @@ public class Socnet{
 	public synchronized static Boolean addChatroom(String theme){
 		if( !existsChatroom(theme) )
 			chatrooms.put(theme, new Chatroom(theme));
+			Backup.saveChatrooms(chatrooms);
 		return false;
 	}
 
@@ -218,7 +219,9 @@ public class Socnet{
 	public static Boolean editPost(String chatroom, int postID, String text, String imagePath){
 		Chatroom cr = chatrooms.get(chatroom);
 		if(cr != null){
-			return cr.editPost(postID, text, imagePath);
+			Boolean b = cr.editPost(postID, text, imagePath);
+			Backup.saveChatrooms(chatrooms);
+			return b;
 		}
 
 		return false;		
@@ -275,6 +278,7 @@ public class Socnet{
 				}
 			}
 			cr.addPost(p);
+			Backup.saveChatrooms(chatrooms);
 			return true;
 		}
 
@@ -337,7 +341,9 @@ public class Socnet{
 	public static Boolean deletePost(String chatroom, int postID){
 		Chatroom cr = chatrooms.get(chatroom);
 		if(cr != null){
-			return cr.deletePost(postID);
+		    Boolean b = cr.deletePost(postID);
+		    Backup.saveChatrooms(chatrooms);
+		    return b;
 		}
 
 		return false;		
@@ -359,7 +365,9 @@ public class Socnet{
 	public static Boolean addReply(String chatroom, int parentID, String text, String source){
 		Chatroom cr = chatrooms.get(chatroom);
 		if(cr != null){
-			return cr.addReply(parentID, text, source);
+			Boolean b = cr.addReply(parentID, text, source);
+			Backup.saveChatrooms(chatrooms);
+			return b;
 		}
 
 		return false;			

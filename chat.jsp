@@ -14,28 +14,28 @@
     <script type="text/javascript">
     function outputPost(source, text, sentDate, replyLevel, owner, ID, fileName){
 	var rl = parseInt(replyLevel);
-	var html =  "<div class='timeline_div' id='"+ID+"' style='position:relative;left:"+(rl*50)+"px'>";
+	var html =  "<br><div class='post_div' id='"+ID+"' style='position:relative;left:"+(rl*50)+"px'>";
 	
 	if(fileName!="null"){
 	    html += "<div style='float:left;'>"+
 		"<img src='images/"+fileName+"' width='100'>"+
 		"</div >";
 	}
-	html += "<div class='post_div'>";
+	html += "<div class='pos_div'>";
 	html += "FROM "+source+" <br>"+
 	    "date:"+ sentDate +" "+
 	    "<p>"+text+"</p>"+
-	    "<button onclick=\"newReply('"+ID+"','"+(rl+1)+"')\">Reply</button>";
-
+	  "<button onclick=\"newReply('"+ID+"','"+(rl+1)+"')\">Reply</button>";
 	if(owner=="true"){
-	    html += "<button onclick=\"editPost('"+ID+"')\"> Edit </button>" +
-		"<form action='deletePost' method='post'>"+
-		"<input type='hidden' name='id' value="+ID+"> "+
-		"<input type='submit' value='Delete'>"+
+	  html += "<button onclick=\"editPost('"+ID+"')\"> Edit </button>";
+	  html +=  "<form action='deletePost' method='post'>"+
+	    "<input type='submit' value='Delete'>"+
+	    "<input type='hidden' name='p_id' value='"+ID+"'> "+
+	    "<input type='hidden' name='id' value='"+document.getElementById("chat_name")+"'>"+
 		"</form>";
 	}
 
-	html += "</div></div></div><br>";				
+	html += "</div></div><br>";				
 
 	document.write(html);
     }
@@ -81,14 +81,34 @@ function editPost(divID){
 </head>
 <body>
   <div class="sub_div">
+    <%if(request.getParameter("id") != null){%>
     <h2><%=(String)request.getParameter("id")%></h2>
-    <script type="text/javascript"> newPost(); </script>
+    <div class="input_form">
+      <div>
+	<form action='newPost' method='post'>
+	  <textarea name='text' rows='2' cols='30' placeholder="type your text here"></textarea>
+	  <br>
+	  <input type='file' name='pic' accept='image/*'>
+	  <input type='hidden' name='id' id='chat_name'value='<%=(String)request.getParameter("id")%>'>
+	  <input type='submit' value='Submit'>
+	</form>
+      </div>
+    </div>
+    <div class="content_div">
+    <%if(posts != null){%>			
     <%for(Post p : posts){   %>
     <%owner=p.getSource().equals((String)session.getAttribute("user"));%>
     <script type="text/javascript"> 
       outputPost( "<%=p.getSource()%>", "<%=p.getText()%>", "<%=p.getDate()%>", "<%=p.getReplyLevel()%>","<%=owner%>", "<%=p.getID()%>", "<%=p.getImagePath()%>" );
     </script>
     <%}%>
+    <%}%>
+    <%}else{%>
+    <div class="input_form">
+      <h3>&larr; Select Chatroom</h3>
+    </div>
+    <%}%>
+    </div>
   </div>
   
 </body>

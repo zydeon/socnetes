@@ -75,6 +75,39 @@
         <url-pattern>/newChat</url-pattern>
     </servlet-mapping>       
 
+    <!-- DELETE POST -->
+    <servlet>
+        <servlet-name>DeletePost</servlet-name>
+        <servlet-class>DeletePostSv</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DeletePost</servlet-name>
+        <url-pattern>/deletePost</url-pattern>
+    </servlet-mapping>       
+
+    <!-- NEW POST -->
+    <servlet>
+        <servlet-name>NewPost</servlet-name>
+        <servlet-class>NewPostSv</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>NewPost</servlet-name>
+        <url-pattern>/newPost</url-pattern>
+    </servlet-mapping>       
+
+    <!-- NEW REPLY -->
+    <servlet>
+        <servlet-name>NewReply</servlet-name>
+        <servlet-class>NewReplySv</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>NewReply</servlet-name>
+        <url-pattern>/newReply</url-pattern>
+    </servlet-mapping>       
+
     <!-- INITIALIZER -->
     <servlet>
         <servlet-name>SocnetInitializerSv</servlet-name>

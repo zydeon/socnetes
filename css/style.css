@@ -1,9 +1,9 @@
 body{
     background-image:url('../pics/fibers.png');
-    text-align:center;
     font-family:"Arial", Times, serif; 
     color:white;
     vertical-align:middle;
+    text-align:center;
 }
 
 h1{
@@ -31,6 +31,25 @@ p{
     color:white;
     border-radius:5px;
 }
+
+.input_form{
+    text-align:left;
+    background-color:rgba(0,0,0,0.61);
+    padding:20px;
+    color:white;
+    border-radius:5px;
+}
+
+.post_div {
+    color:white;
+    background-color:rgba(0,0,0,0.6);
+    display:inline-block;
+    padding:10px;
+    border-radius:3px;
+    text-align:left;
+    /*float:left;*/
+}
+
 .desc_div{
     float:left;
     display:inline-block;
@@ -58,6 +77,10 @@ p{
 
 .chatroom_div{
     float:right;
+}
+
+.content_div{
+    text-align:left;
 }
 
 .chatroom_frame{

@@ -41,7 +41,7 @@
 	<%}%>
       </div>
       <hr>
-      <div style="width:100%;">
+      <div class="content_div">
 	<%if (session.getAttribute("user").equals("admin")){%>
 	<div style="float:left;">
 	  <form method="post" action="newChat">
