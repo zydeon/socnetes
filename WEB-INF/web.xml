@@ -97,6 +97,17 @@
         <url-pattern>/newPost</url-pattern>
     </servlet-mapping>       
 
+    <!-- EDIT POST -->
+    <servlet>
+        <servlet-name>EditPost</servlet-name>
+        <servlet-class>EditPostSv</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>EditPost</servlet-name>
+        <url-pattern>/editPost</url-pattern>
+    </servlet-mapping>       
+
     <!-- NEW REPLY -->
     <servlet>
         <servlet-name>NewReply</servlet-name>

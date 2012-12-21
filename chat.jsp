@@ -16,7 +16,7 @@
 	var rl = parseInt(replyLevel);
 	var html =  "<br><div class='post_div' id='"+ID+"' style='position:relative;left:"+(rl*50)+"px'>";
 	
-	if(fileName!="null"){
+	if(fileName!="null" && rl<1){
 	    html += "<div style='float:left;'>"+
 		"<img src='images/"+fileName+"' width='100'>"+
 		"</div >";
@@ -71,6 +71,8 @@ function editPost(divID){
     div.innerHTML = "<form action='editPost' method='post'>"+
 	"<textarea name='text' rows='2' cols='30' placeholder='Edit post here'>"+
 	"</textarea>"+
+	"<br>"+
+	"<input type='file' name='pic' accept='image/*'>"+
 	"<br>"+
 	"<input type='hidden' name='postID' value='"+id+"'>"+
 	"<input type='submit' value='Submit'>"+
