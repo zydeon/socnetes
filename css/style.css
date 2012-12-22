@@ -23,6 +23,31 @@ p{
     color:white;
 }
 
+inf{
+    font-size:12px;
+    color:gray;
+}
+
+.image_div{
+    float:left;
+    margin-right:10px;
+}
+
+.text_div{
+    float:none;
+}
+.button_div{
+    float:bottom;
+}
+button{
+    min-width:75px;
+}
+
+input{
+    min-width:75px;
+}
+
+
 .reg_div{
     float:left;
     display:inline-block;

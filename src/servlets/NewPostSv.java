@@ -18,7 +18,7 @@ public class NewPostSv extends HttpServlet{
 	System.out.println("New Post Servlet: "+cr_id+" "+texto+" "+from+" "+path);
 	Socnet.addPost(cr_id,texto,from,path,null);
 	
-	RequestDispatcher dispatcher = request.getRequestDispatcher("chat.jsp");
+	RequestDispatcher dispatcher = request.getRequestDispatcher("chat?id="+cr_id);
 	dispatcher.forward(request, response);
     }
 }

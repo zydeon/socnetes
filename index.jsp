@@ -46,7 +46,7 @@
 	<div style="float:left;">
 	  <form method="post" action="newChat">
 	    <input type="submit" value="Create Chatroom">
-	    <input type="text" name="chatroom_name" id="chatroom_name">
+	    <input type="text" name="chatroom_name" id="chatroom_name" placeholder="Chatroom Name">
 	  </form>
 	</div>
 	<%}%>

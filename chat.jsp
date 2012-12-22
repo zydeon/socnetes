@@ -16,26 +16,30 @@
 	var rl = parseInt(replyLevel);
 	var html =  "<br><div class='post_div' id='"+ID+"' style='position:relative;left:"+(rl*50)+"px'>";
 	
-	if(fileName!="null" && rl<1){
-	    html += "<div style='float:left;'>"+
+	if(fileName!="null" && rl<1 && fileName!=""){
+	    html += "<div class='image_div'>"+
 		"<img src='images/"+fileName+"' width='100'>"+
-		"</div >";
+		"</div>";
 	}
-	html += "<div class='pos_div'>";
-	html += "FROM "+source+" <br>"+
-	    "date:"+ sentDate +" "+
+	html += "<div class='text_div'>";
+	html += 
+	    "<inf>"+
+	    sentDate +"<br>"+ "from <i>"+source+"</i>: <br>"+
+	    "</inf>"+
 	    "<p>"+text+"</p>"+
-	  "<button onclick=\"newReply('"+ID+"','"+(rl+1)+"')\">Reply</button>";
+	    "<br><br><div class= button_div>";
 	if(owner=="true"){
-	  html += "<button onclick=\"editPost('"+ID+"')\"> Edit </button>";
-	  html +=  "<form action='deletePost' method='post'>"+
-	    "<input type='submit' value='Delete'>"+
-	    "<input type='hidden' name='p_id' value='"+ID+"'> "+
-	    "<input type='hidden' name='id' value='"+document.getElementById("chat_name")+"'>"+
+	    html +=
+		"<form action='deletePost' style='display:inline-block; method='post'>"+
+		"<input type='submit' style='display:inline-block;' value='Delete'>"+
+		"<input type='hidden' style='display:inline-block;' name='p_id' value='"+ID+"'> "+
+		"<input type='hidden' style='display:inline-block;' name='id' value='"+document.getElementById("chat_name")+"'>"+
 		"</form>";
+	    html += "<button onclick=\"editPost('"+ID+"')\"> Edit </button>";
 	}
 
-	html += "</div></div><br>";				
+	html +="<button onclick=\"newReply('"+ID+"','"+(rl+1)+"')\">Reply</button>";
+	html += "</div></div></div><br>";				
 
 	document.write(html);
     }
@@ -46,7 +50,7 @@ function newPost(divID){
 	"<textarea name='text' rows='2' cols='30' placeholder='New post here'>"+
 	"</textarea>"+
 	"<br>"+
-	"<input type='file' name='pic' accept='image/*'>"+
+	"<input type='file' name='pic' accept='images/*'>"+
 	"<input type='submit' value='Submit'>"+
 	"</form>"+
 	"</div>";
@@ -55,25 +59,24 @@ function newPost(divID){
 }
 function newReply(parent, replyLvl){
     div = document.createElement('div');
-    div.innerHTML = "<form action='newReply' method='post'>"+
-	"<textarea name='text' rows='2' cols='30'>"+
+    div.innerHTML = "<div style='text-align:center;'><hr><form action='newReply' method='post'>"+
+	"<textarea name='text' style='width: 100%; height: 50px;' placeholder='type your reply here'>"+
 	"</textarea>"+
 	"<br>"+
 	"<input type='hidden' name='parent' value='"+parent+"'>"+
 	"<input type='hidden' name='replyLvl' value='"+replyLvl+"'>"+
 	"<input type='submit' value='Submit'>"+
-	"</form>";
+	"</form></div>";
     document.getElementById(parent).appendChild(div);
 }
 function editPost(divID){
     id = parseInt(divID);
     div = document.createElement('div');
-    div.innerHTML = "<form action='editPost' method='post'>"+
-	"<textarea name='text' rows='2' cols='30' placeholder='Edit post here'>"+
+    div.innerHTML = "<hr><form action='editPost' method='post'>"+
+	"<textarea name='text' style='width: 100%; height: 50px;'  placeholder='edit your post here'>"+
 	"</textarea>"+
 	"<br>"+
 	"<input type='file' name='pic' accept='image/*'>"+
-	"<br>"+
 	"<input type='hidden' name='postID' value='"+id+"'>"+
 	"<input type='submit' value='Submit'>"+
 	"</form>";
@@ -88,7 +91,7 @@ function editPost(divID){
     <div class="input_form">
       <div>
 	<form action='newPost' method='post'>
-	  <textarea name='text' rows='2' cols='30' placeholder="type your text here"></textarea>
+	  <textarea name='text' style="width: 340px; height: 50px;" placeholder="type your text here"></textarea>
 	  <br>
 	  <input type='file' name='pic' accept='image/*'>
 	  <input type='hidden' name='id' id='chat_name'value='<%=(String)request.getParameter("id")%>'>

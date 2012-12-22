@@ -17,7 +17,8 @@ public class NewReplySv extends HttpServlet{
 	String cr_id=(String)request.getSession(true).getAttribute("chatroom");
 	Socnet.addReply(cr_id,parent,text,from);
 	
-	RequestDispatcher dispatcher = request.getRequestDispatcher("chat.jsp");
+
+	RequestDispatcher dispatcher = request.getRequestDispatcher("chat?id="+cr_id);
 	dispatcher.forward(request, response);
     }
 }

@@ -6,7 +6,9 @@ import socnet.Socnet.*;
 
 public class NewChatSv extends HttpServlet{
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException,ServletException{
-	Socnet.addChatroom((String)request.getParameter("chatroom_name"));
+	String c_name = (String)request.getParameter("chatroom_name");
+	if(!c_name.equals(""))
+	    Socnet.addChatroom(c_name);
 	response.sendRedirect("index.jsp");
     }
 }

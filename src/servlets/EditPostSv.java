@@ -16,8 +16,9 @@ public class EditPostSv extends HttpServlet{
 	String path=(String)request.getParameter("pic");
 	String cr_id=(String)request.getSession(true).getAttribute("chatroom");
 	Socnet.editPost(cr_id,id,text,path);
+
 	
-	RequestDispatcher dispatcher = request.getRequestDispatcher("chat.jsp");
+	RequestDispatcher dispatcher = request.getRequestDispatcher("chat?id="+cr_id);
 	dispatcher.forward(request, response);
     }
 }

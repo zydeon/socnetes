@@ -16,4 +16,7 @@ public class ChatSv extends HttpServlet{
 		RequestDispatcher dispatcher = request.getRequestDispatcher("chat.jsp?id="+c_id);
 		dispatcher.forward(request, response);
     }
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException,ServletException{
+	doGet(request,response);
+    }
 }
