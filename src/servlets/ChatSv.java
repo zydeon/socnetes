@@ -9,7 +9,6 @@ import java.util.Date;
 public class ChatSv extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException,ServletException{
 		String c_id=(String)request.getParameter("id");
-		request.getSession(true).setAttribute("chatroom", c_id);
 		request.setAttribute("posts",Socnet.getChatroomPosts(c_id));
 		System.out.println("Chat Servlet: "+c_id);
 

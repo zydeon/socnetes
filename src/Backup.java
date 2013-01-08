@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Backup {	
 
-	private static final String TOMCAT_HOME = "/usr/share/tomcat7/";
+	private static final String TOMCAT_HOME = "/Library/Tomcat/";
 	private static final String WEBAPP_NAME = "socnetES";
 
 	private static final String FILES_PATH         = TOMCAT_HOME+"webapps/"+WEBAPP_NAME+"/files/";
@@ -111,16 +111,21 @@ public class Backup {
 	 * Saved registered users in the application to an object file
 	 *
 	 * @param users 	the users to be saved
+	 * @return 				<code>true</code> if the users were saved correctly
+	 *                      <code>false</code> otherwise
 	 */
-	public static synchronized void saveUsers( ConcurrentHashMap<String, User> users ){
+	public static synchronized boolean saveUsers( ConcurrentHashMap<String, User> users ){
 		Backup b = new Backup();		
 		try{
 			b.openWrite(USERS_FILE);
 			b.writeObject(users);
 			b.closeWrite();
+			return true;
 		}
 		catch (FileNotFoundException e) {System.out.println("Ficheiro nao existente: "+e.getMessage());}
 		catch (IOException e){System.out.println("---Erro de I/O: "+e);}		
+
+		return false;
 	}
 
 	/**
@@ -152,15 +157,20 @@ public class Backup {
 	 * Saved existing chatrooms in the application to an object file
 	 *
 	 * @param chatrooms 	the chatrooms to be saved
+	 * @return 				<code>true</code> if the chatrooms were correctly saved
+	 *                      <code>false</code> otherwise
 	 */
-	public static synchronized void saveChatrooms( ConcurrentHashMap<String, Chatroom> chatrooms ){
+	public static synchronized boolean saveChatrooms( ConcurrentHashMap<String, Chatroom> chatrooms ){
 		Backup b = new Backup();		
 		try{
 			b.openWrite(CHATS_FILE);
 			b.writeObject(chatrooms);
 			b.closeWrite();
+			return true;
 		}
 		catch (FileNotFoundException e) {System.out.println("Ficheiro nao existente: "+e.getMessage());}
 		catch (IOException e){System.out.println("---Erro de I/O: "+e);}		
+
+		return false;
 	}		
 }

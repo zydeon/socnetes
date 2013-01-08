@@ -10,9 +10,13 @@ public class LoginSv extends HttpServlet {
 		PrintWriter out  = response.getWriter();
 		String user      = request.getParameter("user");
 		String pass      = request.getParameter("password");
+		HttpSession session;
 
 		if( Socnet.authenticate(user, pass) ){
-			request.getSession(true).setAttribute("user", user);
+			session = request.getSession(true);
+			session.setAttribute("user", user);
+			session.setAttribute("admin", Socnet.isAdmin(user, pass));
+
 			response.sendRedirect("home");			
 		}
 		else

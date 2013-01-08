@@ -124,6 +124,13 @@ public class Post extends Message{
 		replyIDs.add(replyID);
 	}
 	/**
+	 * Removes a reply to this post.
+	 * @param replyID 		The reply identifier
+	 */
+	public void removeReplyID(int replyID){
+		replyIDs.remove( new Integer(replyID) );
+	}	
+	/**
 	 * Retrieves the ID of the parent post
 	 * @return 				Post identifier
 	 */	

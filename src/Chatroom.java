@@ -144,7 +144,12 @@ public class Chatroom implements Serializable{
 	 * 						<code>false</code> otherwise (specified post does not exist)
 	 */
 	public Boolean deletePost(int postID){
-		if(posts.get(postID)!=null){
+		Post p = posts.get(postID);
+		if(p!=null){
+			p = posts.get(postID);
+			int parentID = p.getParentID();
+			if(parentID != -1)
+				posts.get( parentID ).removeReplyID(postID);
 			deletePost_(postID);
 			return true;
 		}

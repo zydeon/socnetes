@@ -32,6 +32,9 @@ public class Socnet{
 	/* Chatroom 'theme' is the key to the hash map */
 	private static ConcurrentHashMap<String, Chatroom> chatrooms;
 
+	private static final String ADMIN_LOGIN = "19";
+	private static final String ADMIN_PASS  = "gajo_porreiro";
+
 	/**
 	 * Initializes the application, backing up 
 	 * information.
@@ -54,6 +57,9 @@ public class Socnet{
 		ConcurrentHashMap<String, User> u = Backup.readUsers();
 		if( u != null )
 			users.putAll(u);
+
+		// add admin to list of users
+		users.put(ADMIN_LOGIN, new User(ADMIN_LOGIN, ADMIN_PASS) );
 
 		// read chatrooms
 		ConcurrentHashMap<String, Chatroom> c = Backup.readChatrooms();
@@ -92,6 +98,7 @@ public class Socnet{
 	 */
 	public static void destroy(){
 		Backup.saveUsers(users);
+		Backup.saveChatrooms(chatrooms);
 	}
 
 	/**
@@ -120,14 +127,14 @@ public class Socnet{
 	 * @param pass			Password specified by the user
 	 * @param NIB			If a client is registering
 	 * @return 				<code>true</code> if the specified 'login'
-	 *                      does not yet exist in the system;
+	 *                      does not yet exist in the system including the admin
 	 *                      <code>false</code> otherwise
 	 * 
 	 * @see User
 	 * @see Client
 	 */
 	public static boolean registerUser(String login, String pass, String NIB){
-		if( !users.containsKey(login) ){
+		if( !userExists(login) ){
 			if( NIB.equals("") )
 				users.put(login, new User(login, pass));
 			else
@@ -137,6 +144,19 @@ public class Socnet{
 			return true;
 		}
 		return false;
+	}
+
+
+	/**
+	 * Checks user existence in the system
+	 * 
+	 * @param login			Username specified by the user
+	 * @return 				<code>true</code> if the specified 'login'
+	 *                      is associated to an existing key;
+	 *                      <code>false</code> otherwise
+	 */
+	public static boolean userExists(String login){
+		return users.containsKey(login);
 	}
 
 
@@ -169,9 +189,11 @@ public class Socnet{
 	 * @see Chatroom
 	 */
 	public synchronized static Boolean addChatroom(String theme){
-		if( !existsChatroom(theme) )
+		if( !existsChatroom(theme) ){
 			chatrooms.put(theme, new Chatroom(theme));
 			Backup.saveChatrooms(chatrooms);
+			return true;
+		}
 		return false;
 	}
 
@@ -227,21 +249,6 @@ public class Socnet{
 		return false;		
 	}
 
-	// /**
-	//  * Edits a post with the possibility of altering
-	//  * its content.
-	//  *
-	//  * @param chatroom 		The chatroom identifier (its theme)
-	//  * @param postID 		The id of the post to be alterer
-	//  * @param text 			The new content of the post
-	//  * @param imagePath 	The new path to the image
-	//  * @return 				<code>true</code> if the edit was successful
-	//  * 						<code>false</code> otherwise (chatroom or post does not exist)
-	//  */
-	// public static Boolean editPost(String chatroom, int postID, String text){
-	// 	return editPost(chatroom, postID, text, "");
-	// }	
-
 	/**
 	 * Adds a post to the specified chatroom.
 	 * This post can either be a delayed post (if <code>date!=null</code>)
@@ -285,50 +292,6 @@ public class Socnet{
 		return false;			
 	}
 
-	// public static Boolean addPost(String chatroom, String text, String source){
-	// 	Chatroom cr = chatrooms.get(chatroom);
-	// 	if(cr != null){
-	// 		Post p = new Post(source, text);
-	// 		cr.addPost(p);
-	// 		return true;
-	// 	}
-
-	// 	return false;			
-	// }	
-
-	// public static Boolean addDelayedPost(String chatroom, String text, String source, String imagePath, Date futureDate){
-	// 	Chatroom cr = chatrooms.get(chatroom);
-	// 	if(cr != null){
-	// 		DelayedPost dp = new DelayedPost(source, text, futureDate, imagePath);
-	// 		new Timer().schedule( new DelayTask(dp.getID()), futureDate );			
-	// 		return true;
-	// 	}
-
-	// 	return false;			
-	// }
-
-	// public static Boolean addDelayedPost(String chatroom, String text, String source, Date futureDate){
-	// 	Chatroom cr = chatrooms.get(chatroom);
-	// 	if(cr != null){
-	// 		DelayedPost dp = new DelayedPost(source, text, futureDate);
-	// 		new Timer().schedule( new DelayTask(dp.getID()), futureDate );			
-	// 		return true;
-	// 	}
-
-	// 	return false;			
-	// }	
-
-	// public synchronized static void putInPosts(int dpID){
-	// 	DelayedPost dp = delayedPosts.remove(dpID);
-	// 	if(dp!=null){
-	// 		dp.setDate( new Date() );
-	// 		chatrooms.get( dp.getChatroom() ).addPost(dp);
-	// 	}
-	// 	else{
-	// 		System.out.println("Error removing delayed post!");
-	// 	}	
-	// }
-
 	/**
 	 * Deletes a post from a chatroom and the
 	 * corresponding replies
@@ -371,6 +334,10 @@ public class Socnet{
 		}
 
 		return false;			
+	}
+
+	public static Boolean isAdmin(String login, String pass){
+		return login.equals(ADMIN_LOGIN) && pass.equals(ADMIN_PASS);
 	}
 
 }

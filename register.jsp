@@ -60,6 +60,12 @@
     document.getElementById('password').focus();
     return false; 			
     }
+
+    if(!document.getElementById('client').checked){
+    document.getElementById('password').value=''();
+    return true;       
+    }
+
     }
 
     function toggleNIB(){
